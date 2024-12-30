@@ -43,7 +43,4 @@ def showCrud(request):
   # get all the product from the table
 
 
-
-
-
   return render(request, 'crud.html',{'list':list})
