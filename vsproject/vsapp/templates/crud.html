@@ -1,0 +1,297 @@
+{% extends 'dashboard.html' %}
+{% block content %}
+<div class="main-container">
+  <div class="dashboard-content">
+    <div class="crud-container">
+      <h1 class="page-title">Product Management</h1>
+      <div class="form-card">
+        <form method="post" class="crud-form">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="name">Product Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter product name" required>
+          </div>
+          <div class="form-group">
+            <label for="price">Price</label>
+            <div class="input-with-icon">
+              <span class="currency-symbol">$</span>
+              <input type="number" id="price" name="price" step="0.01" placeholder="0.00" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="quantity">Quantity</label>
+            <input type="number" id="quantity" name="quantity" min="0" placeholder="Available stock" required>
+          </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="4" placeholder="Product description..."
+              required></textarea>
+          </div>
+          <button type="submit" class="submit-btn">
+            <span class="btn-icon">+</span>
+            Add Product
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="table-container">
+      <div class="table-card">
+        <table class="crud-table">
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in list %}
+            <tr>
+              <td>{{i.name}}</td>
+              <td>${{i.price}}</td>
+              <td>
+                <span
+                  class="quantity-badge {% if i.quantity == 0 %}out-of-stock{% elif i.quantity < 10 %}low-stock{% else %}in-stock{% endif %}">
+                  {{i.quantity}}
+                </span>
+              </td>
+              <td>{{i.description}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .main-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f6f9fc 0%, #edf2f7 100%);
+    padding: 2rem;
+  }
+
+  .dashboard-content {
+    display: flex;
+    gap: 2rem;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+
+  .crud-container {
+    flex: 1;
+    min-width: 400px;
+  }
+
+  .page-title {
+    color: #2d3748;
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    text-align: left;
+    position: relative;
+  }
+
+  .page-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: #4299e1;
+    margin-top: 0.5rem;
+    border-radius: 2px;
+  }
+
+  .form-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05),
+      0 10px 15px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    transition: transform 0.2s ease;
+  }
+
+  .form-card:hover {
+    transform: translateY(-2px);
+  }
+
+  .crud-form {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-group label {
+    color: #4a5568;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+  }
+
+  .input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .currency-symbol {
+    position: absolute;
+    left: 12px;
+    color: #4a5568;
+    font-weight: 500;
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    background: #f8fafc;
+  }
+
+  input[name="price"] {
+    padding-left: 2rem;
+  }
+
+  input:focus,
+  textarea:focus {
+    outline: none;
+    border-color: #4299e1;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: #a0aec0;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  .submit-btn {
+    background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+    color: white;
+    padding: 1rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .btn-icon {
+    font-size: 1.25rem;
+    font-weight: 300;
+  }
+
+  .submit-btn:hover {
+    background: linear-gradient(135deg, #3182ce 0%, #2c5282 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(66, 153, 225, 0.25);
+  }
+
+  .table-container {
+    flex: 1.5;
+  }
+
+  .table-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05),
+      0 10px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+
+  .crud-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .crud-table th {
+    background: #f8fafc;
+    color: #2d3748;
+    font-weight: 600;
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 2px solid #e2e8f0;
+  }
+
+  .crud-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #e2e8f0;
+    color: #4a5568;
+  }
+
+  .crud-table tr:hover {
+    background: #f8fafc;
+  }
+
+  .quantity-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .in-stock {
+    background: #c6f6d5;
+    color: #22543d;
+  }
+
+  .low-stock {
+    background: #feebc8;
+    color: #744210;
+  }
+
+  .out-of-stock {
+    background: #fed7d7;
+    color: #822727;
+  }
+
+  @media (max-width: 1200px) {
+    .dashboard-content {
+      flex-direction: column;
+    }
+
+    .crud-container,
+    .table-container {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .main-container {
+      padding: 1rem;
+    }
+
+    .form-card,
+    .table-card {
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+
+    .page-title {
+      font-size: 1.75rem;
+    }
+  }
+</style>
+{% endblock content %}
