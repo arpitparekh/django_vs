@@ -7,4 +7,13 @@ class Product(models.Model):
   quantity = models.IntegerField()
   description = models.TextField()
 
+class Blog(models.Model):
+  title = models.CharField(max_length=255)
+  content = models.TextField()
+  author = models.CharField(max_length=255)
+  created_at = models.DateTimeField(auto_now_add=True)
+  updated_at = models.DateTimeField(auto_now=True)
+  image = models.ImageField(upload_to='images/',blank=True,null=True)
 
+  def __str__(self):
+    return self.title

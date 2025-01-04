@@ -1,0 +1,26 @@
+{% extends 'dashboard.html' %}
+
+{% block content %}
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+
+<div id="main-blog">
+  {% for blog in blogList %}
+
+    <div class="blog-post">
+      <h2>{{blog.title}}</h2>
+      <p>{{blog.content}}</p>
+      <p>Author: {{blog.author}}</p>
+      <p>Created At: {{blog.created_at}}</p>
+      <p>Updated At: {{blog.updated_at}}</p>
+
+      {% if blog.image %}
+      <img src="{{blog.image.url}}" alt="Blog Image" />
+      {% endif %}
+
+    </div>
+
+  {% endfor %}
+</div>
+{% endblock content %}

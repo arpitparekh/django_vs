@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Product
+from .models import Product,Blog
 from django.shortcuts import redirect
 
 # Create your views here.
@@ -44,3 +44,8 @@ def showCrud(request):
 
 
   return render(request, 'crud.html',{'list':list})
+
+def showBlog(request):
+  blogList = Blog.objects.all()
+  return render(request, 'blog.html',{'blogList':blogList})
+
