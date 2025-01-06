@@ -17,3 +17,6 @@ class Blog(models.Model):
 
   def __str__(self):
     return self.title
+
+class Register(models.Model):
+  pass

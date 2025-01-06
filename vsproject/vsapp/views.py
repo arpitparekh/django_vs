@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import Product,Blog
 from django.shortcuts import redirect
+from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
 def showIntro(request):
@@ -47,5 +48,15 @@ def showCrud(request):
 
 def showBlog(request):
   blogList = Blog.objects.all()
+  print(blogList)
   return render(request, 'blog.html',{'blogList':blogList})
 
+def showRegister(request):
+  if request.method=='POST':
+    form = UserCreationForm(request.POST)
+    if form.is_valid():
+      user = form.save()
+      return redirect('register')
+  else:
+    form = UserCreationForm()
+  return render(request, 'register.html',{'form':form})
