@@ -19,6 +19,6 @@ from django.urls import path,include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('vsapp/', include('vsapp.urls')),  # inform admin about our application urls
-    
+    path('vsapp/', include('vsapp.urls')),
+    path('accounts/', include('accounts.urls')), # inform admin about our application urls
 ]
