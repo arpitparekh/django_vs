@@ -2,6 +2,9 @@ from django.shortcuts import render
 from .models import Product,Blog
 from django.shortcuts import redirect
 from django.contrib.auth.forms import UserCreationForm
+from django.http import JsonResponse
+from .serializers import ProductSerializer
+from rest_framework import viewsets
 
 # Create your views here.
 def showIntro(request):
@@ -60,3 +63,9 @@ def showRegister(request):
   else:
     form = UserCreationForm()
   return render(request, 'register.html',{'form':form})
+
+
+# api are notinhg but an url address to transfer data from server to the client
+class ProductViewSet(viewsets.ModelViewSet):
+  queryset = Product.objects.all()
+  serializer_class = ProductSerializer
